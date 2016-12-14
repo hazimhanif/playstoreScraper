@@ -6,38 +6,66 @@ Created on 13 Dec 2016
 import os
 import codecs
 import json
+import re
 
 global wordList
+global indonList
 
 revDir="D:/scraper/playstore/reviews/"
 dictDir="D:/OneDrive/Documents/FSKTM/Master (Sentiment Analysis)/WordList/"
 
-def isEnglish(word):
-    countEnglish=0
-    for i in range(0,len(wordList)):
-        if(word in wordList[i]):
-            countEnglish=countEnglish+1
-            break
-    print(wordList[0][0])
+def isIndon(wordIndo):
     
+    if str(wordIndo).lower() in map(str.lower,[x.strip("\r\n\t") for x in indonList]):
+            print("Indo: "+wordIndo)
+            return 1            
+    return 0
+
+def isEnglish(word):
+    for i in range(0,len(wordList)):
+        if(str(word).lower() in map(str.lower,wordList[i])):
+            print(word)
+            return 1            
+    return 0
     
 def getReviews(data):
-    words=str(data[0]['revText']).split(sep=" ")
-    for word in words:
-        if 
+    i=0
+    size_data = len(data[i])
+    while i < size_data:
+        countEnglish_perRev=0
+        countIndon_perRev=0
+        words=str(data[i]['revText']).strip(".,!?:;`~@#$%^&*()-+=*'[]{}|\"/<>\\")
+        words= re.sub("\."," ",words)
+
+        for word in words.split(sep=" "):
+            countEnglish_perRev=countEnglish_perRev+isEnglish(word)
+            countIndon_perRev=countIndon_perRev+isEnglish(word)
         
+        if countEnglish_perRev > 0:
+            #print(words)
+            del data[i]
+            size_data=size_data-1
+            continue
+        
+        i=i+1
+    return(data)
         
 def openFile(file):
-    filename=dictDir+file
+    filename=revDir+file
     with codecs.open(filename,'rb','utf-8') as data_file:    
         return(json.load(data_file))
     
-def openWordList():
+def loadWordList():
     global wordList
+    global indonList
+    indonList=[]
     wordList=[]
     
     i=0
     for file in os.listdir(dictDir):
+        if(str(file)=="indon.txt"):
+            continue
+        
         filename=dictDir+file
         data=codecs.open(filename,'rb','utf-8')
         wordList.append(data.readlines())
@@ -45,14 +73,18 @@ def openWordList():
             wordList[i][j]=str(wordList[i][j]).strip("\r\n\t")
     
         i=i+1
-    
+     
+    data=codecs.open("D:/OneDrive/Documents/FSKTM/Master (Sentiment Analysis)/WordList/indon.txt",'rb','utf-8')    
+    indonList=data.readlines()   
         
 def main():
     
-    openWordList()
-    for file in os.listdir(dictDir):
-        #data=openFile(file)
-        #getReviews(data)
+    loadWordList()
+    for file in os.listdir(revDir):
+        data=openFile(file)
+        print(len(data))
+        data=getReviews(data)
+        print(len(data))
         break
     
 
