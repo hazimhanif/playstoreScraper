@@ -47,8 +47,6 @@ def getReviews(data):
             countIndon_perRev=countIndon_perRev+isIndon(word)
         
         if countEnglish_perRev == len(words_split):
-            #print(words)
-            #print(len(words_split))
             del data[i]
             size_data=size_data-1
             continue
