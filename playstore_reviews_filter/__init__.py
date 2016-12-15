@@ -12,34 +12,6 @@ import json
 import re
 import requests
 from lxml import html
+import os
 
-a=[]
-
-b=[{
-        "appId":"aero.sita.lab.resmobileweb.android.mh",
-        "appPrice":0.0,
-        "appScore":4.0,
-        "appTitle":"Malaysia Airlines",
-        "revAuthor":"Siti Sumaini Siti Sumaini",
-        "revDate":"7 Ogos 2016",
-        "revRating":5.0,
-        "revText":"Yang terbaik",
-        "revTitle":"Malaysia airlines"
-    },
-    {
-        "appId":"aero.sita.lab.resmobileweb.android.mh",
-        "appPrice":0.0,
-        "appScore":4.0,
-        "appTitle":"Malaysia Airlines",
-        "revAuthor":"Nur Ain",
-        "revDate":"30 Jun 2015",
-        "revRating":5.0,
-        "revText":"Suka",
-        "revTitle":"Layanan sangat bagus"
-    }]
-
-for x in b:
-    a.append(x)
-print(a[0])
-print(a[1])
-print(a)
+print(len(os.listdir("D:/")))

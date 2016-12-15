@@ -115,11 +115,11 @@ def openFile(file):
 def info():
     os.system('cls' if os.name == 'nt' else 'clear')
     print("=========2-Steps Reviews Filter Info===========")
-    print("Total apps: "+total_apps+"/"+len(os.listdir(revDir)))
-    print("Total reviews: "+total_count)
-    print("English reviews: "+english_count)
-    print("Indon reviews: "+indon_count)
-    print("Drop reviews: "+drop_count)
+    print("Total apps: %d/%d" % (total_apps,len(os.listdir(revDir))))
+    print("Total reviews: ",total_count)
+    print("English reviews: ",english_count)
+    print("Indon reviews: ",indon_count)
+    print("Drop reviews: ",drop_count)
 
 def loadWordList():
     global wordList
@@ -144,6 +144,7 @@ def loadWordList():
     indonList=data.readlines()   
         
 def main():
+    global total_apps
 
     loadWordList()
     for file in os.listdir(revDir):
@@ -153,7 +154,6 @@ def main():
         data=getReviews(data)
         saveFilteredReviews(data,file)
         addToFinalList(data)
-        break
     
     saveFinalList()
 
