@@ -16,37 +16,49 @@ dictDir="D:/OneDrive/Documents/FSKTM/Master (Sentiment Analysis)/WordList/"
 
 def isIndon(wordIndo):
     
-    if str(wordIndo).lower() in map(str.lower,[x.strip("\r\n\t") for x in indonList]):
-            print("Indo: "+wordIndo)
+    if wordIndo in map(str.lower,[x.strip("\r\n\t") for x in indonList]):
+            #print("Indo: "+wordIndo)
             return 1            
     return 0
 
 def isEnglish(word):
     for i in range(0,len(wordList)):
-        if(str(word).lower() in map(str.lower,wordList[i])):
-            print(word)
+        if word in map(str.lower,wordList[i]):
+            #print("English: "+word)
             return 1            
     return 0
     
 def getReviews(data):
     i=0
     size_data = len(data[i])
+    print(size_data)
     while i < size_data:
         countEnglish_perRev=0
         countIndon_perRev=0
         words=str(data[i]['revText']).strip(".,!?:;`~@#$%^&*()-+=*'[]{}|\"/<>\\")
         words= re.sub("\."," ",words)
+        words=words.lower()
+        words_split=words.split(sep=" ")
+        print(words)
+        print(i)
 
-        for word in words.split(sep=" "):
+        for word in words_split:
             countEnglish_perRev=countEnglish_perRev+isEnglish(word)
-            countIndon_perRev=countIndon_perRev+isEnglish(word)
+            countIndon_perRev=countIndon_perRev+isIndon(word)
         
-        if countEnglish_perRev > 0:
+        if countEnglish_perRev == len(words_split):
             #print(words)
+            #print(len(words_split))
             del data[i]
             size_data=size_data-1
             continue
         
+        if countIndon_perRev > (len(words)/2):
+            del data[i]
+            size_data=size_data-1
+            continue
+        
+       
         i=i+1
     return(data)
         
