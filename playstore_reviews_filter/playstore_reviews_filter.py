@@ -31,7 +31,7 @@ filteredDir="D:/scraper/playstore/filtered_reviews/"
 
 def saveFinalList():
     try:
-        with codecs.open("D:/scraper/playstore/final_list.json", 'wb','utf-8') as outfile:
+        with codecs.open("D:/scraper/playstore/final_list_clean.json", 'wb','utf-8') as outfile:
             json.dump(finalList, outfile, indent=4, sort_keys=True, separators=(',', ':'))
     except Exception as e:
         print(e)
@@ -103,6 +103,7 @@ def getReviews(data):
             size_data=size_data-1
             continue
         
+        data[i]['revText']=words
         total_count=total_count+1
         i=i+1
     return(data)
