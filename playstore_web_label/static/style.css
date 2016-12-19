@@ -7,13 +7,34 @@ box-sizing: border-box;
 }
 body {
 font-family: Arial;
-background-color: #3498DB;
+background-color: #c6f4ff;
 padding: 50px;
 }
+
 .login {
 margin: 20px auto;
 width: 300px;
 }
+
+.top {
+margin: 20px auto;
+width: 800px;
+}
+.appInfo {
+margin: 20px auto;
+width: 800px;
+}
+
+.revInfo {
+margin: 20px auto;
+width: 800px;
+}
+
+.selection {
+margin: 20px auto;
+width: 600px;
+}
+
 .login-screen {
 background-color: #FFF;
 padding: 20px;

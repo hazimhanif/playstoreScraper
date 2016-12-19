@@ -16,7 +16,7 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return "Hello Boss!"
+        return main_screen()
  
 @app.route('/login', methods=['POST'])
 def do_admin_login():
@@ -25,6 +25,11 @@ def do_admin_login():
     else:
         flash('Wrong password!')
     return home()
+
+@app.route('/main', methods=['POST'])
+def main_screen():
+    return render_template('main.html')
+
  
 def main():
     print("Starting webserver")
