@@ -27,7 +27,12 @@
 <strong>Review Text: </strong>{{test['revText']}}<br />
 </div>
 </form>
-
+<p style="text-align: center;">============================================</p>
+	<p style="text-align: center;"><strong>+</strong> If the review is uncategorizable or not clear, just press the button below to drop it and proceed with the next review! <strong>+</strong></p>
+	<p style="text-align: center;"><strong>+</strong> If the review is totally in English, Indonesian or other than Malay language, drop it! <strong>+</strong></p>
+	<form action="/drop" name="Item_0">
+		<p style="text-align: center;"><button type="Drop">Drop!</button></p>
+	</form>
 <p style="text-align: center;">============================================</p>
 
 <form action="/result" method="POST" name="Item_1">

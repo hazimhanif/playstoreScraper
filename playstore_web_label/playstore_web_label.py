@@ -24,7 +24,7 @@ test = {
     }
 
 
- 
+
 @app.route('/')
 def home():
     if not session.get('logged_in'):
@@ -42,16 +42,22 @@ def do_admin_login():
 
 @app.route('/result', methods=['POST'])
 def result():
-    print(request.form['sentiment'])
-    print(request.form['authenticity'])
-    print(request.form['rating'])
-    
+    addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'])
+    return render_template('main.html',test=test)
+
+@app.route('/drop')
+def drop():
+    print("Drop")
     return render_template('main.html',test=test)
 
 @app.route('/main', methods=['POST'])
 def main_screen():
     return render_template('main.html',test=test)
 
+def addLabel(sentiment,authenticity,rating):
+    print(sentiment)
+    print(authenticity)
+    print(rating)
  
 def main():
     print("Starting webserver")
