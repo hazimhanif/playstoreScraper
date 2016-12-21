@@ -1,0 +1,29 @@
+
+body {
+font-family: Arial;
+background-color: #c6f4ff;
+padding: 50px;
+}
+
+
+fieldset {
+    text-align: center;
+}
+div {
+    margin: auto;
+}
+
+.top {
+margin: 20px auto;
+width: 800px;
+}
+.appInfo {
+margin: 20px auto;
+width: 800px;
+}
+
+.revInfo {
+margin: 20px auto;
+width: 800px;
+}
+

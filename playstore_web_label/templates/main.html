@@ -1,4 +1,4 @@
-<link href="/static/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/style2.css" rel="stylesheet" type="text/css" />
 
 {% block body %}
 
@@ -14,28 +14,63 @@
 
 <form name="test">
 <div class="appInfo">
-<p><strong>AppID:<br />
-Average App Rating:</strong></p>
+<p><strong>AppID: </strong>{{test['appId']}}<br />
+<strong>AppPrice: </strong>RM {{test['appPrice']}}<br />
+<strong>Average App Rating: </strong>{{test['appScore']}}</p>
 </div>
 
 <div class="revInfo">
-<p><strong>Review Date:<br />
-Review Author:<br />
-Review Title:<br />
-Review Text:</strong><br />
-<strong>Review Rating: </strong></p>
+<p><strong>Review Date: </strong>{{test['revDate']}}<br />
+<strong>Review Author: </strong>{{test['revAuthor']}}<br />
+<strong>Review Rating: </strong>{{test['revRating']}}</p>
+<strong>Review Title: </strong>{{test['revTitle']}}<br />
+<strong>Review Text: </strong>{{test['revText']}}<br />
 </div>
 </form>
 
 <p style="text-align: center;">============================================</p>
 
-<form action="results.html" method="POST" name="Item_1">
+<form action="/result" method="POST" name="Item_1">
 <div class="selection">
-<p style="text-align: center;">The sentiment of the review (positive/negative/neutral): &nbsp;<select name="Sentence_Sentiment"><option value="positive">Positive</option><option value="negative">Negative</option><option value="neutral">Neutral</option> </select><br />
-<br />
-The authenticity of the review (genuine/fake): &nbsp;<select name="Authenticity"><option value="genuine">Genuine</option><option value="fake">Fake</option> </select></p>
-
-<p style="text-align: center;">The real rating of the review (0/1/2/3/4/5): &nbsp;<select name="Rating"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="3">3</option><option value="4">4</option><option value="5">5</option> </select></p>
+    <fieldset>
+        <legend><strong>The sentiment of the review</strong></legend>
+        <div>
+        	<label class="radio-label">Positive</label>
+            <input class="radio-input" type="radio" name="sentiment" value="positive"
+            <label class="radio-label">Neutral</label>            
+            <input class="radio-input" type="radio" name="sentiment" value="neutral"
+            <label class="radio-label">Negative</label>
+            <input class="radio-input" type="radio" name="sentiment" value="negative"
+        </div>
+    </fieldset>
+    </br>
+    <fieldset>
+        <legend><strong>The authenticity of the review</strong></legend>
+        <div>
+        	<label class="radio-label">Genuine</label>
+            <input class="radio-input" type="radio" name="authenticity" value="genuine"
+            <label class="radio-label">Fake</label>            
+            <input class="radio-input" type="radio" name="authenticity" value="fake"
+        </div>
+    </fieldset>
+        </br>
+    <fieldset>
+        <legend><strong>The real/actual rating of the review</strong></legend>
+        <div>
+        	<label class="radio-label">5</label>
+            <input class="radio-input" type="radio" name="rating" value=5
+            <label class="radio-label">4</label>            
+            <input class="radio-input" type="radio" name="rating" value=4
+            <label class="radio-label">3</label>
+            <input class="radio-input" type="radio" name="rating" value=3
+            <label class="radio-label">2</label>
+            <input class="radio-input" type="radio" name="rating" value=2
+            <label class="radio-label">1</label>
+            <input class="radio-input" type="radio" name="rating" value=1
+            <label class="radio-label">0</label>
+            <input class="radio-input" type="radio" name="rating" value=0
+        </div>
+    </fieldset>
 
 <p style="text-align: center;"><button type="Submit">Submit!</button></p>
 </div>

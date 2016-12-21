@@ -10,6 +10,20 @@ from flask import Flask, flash, redirect, render_template, request, session, abo
 import os
  
 app = Flask(__name__)
+
+test = {
+        "appId":"aero.sita.lab.resmobileweb.android.mh",
+        "appPrice":0.0,
+        "appScore":4.0,
+        "appTitle":"Malaysia Airlines",
+        "revAuthor":"Siti Sumaini Siti Sumaini",
+        "revDate":"7 Ogos 2016",
+        "revRating":5.0,
+        "revText":"yang terbaik",
+        "revTitle":"Malaysia airlines"
+    }
+
+
  
 @app.route('/')
 def home():
@@ -26,9 +40,17 @@ def do_admin_login():
         flash('Wrong password!')
     return home()
 
+@app.route('/result', methods=['POST'])
+def result():
+    print(request.form['sentiment'])
+    print(request.form['authenticity'])
+    print(request.form['rating'])
+    
+    return render_template('main.html',test=test)
+
 @app.route('/main', methods=['POST'])
 def main_screen():
-    return render_template('main.html')
+    return render_template('main.html',test=test)
 
  
 def main():
