@@ -8,6 +8,10 @@ Created on 16 Dec 2016
 import flask
 from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
+
+
+global conn
+conn=None
  
 app = Flask(__name__)
 
@@ -58,9 +62,18 @@ def addLabel(sentiment,authenticity,rating):
     print(sentiment)
     print(authenticity)
     print(rating)
+
+def prepare_Database():
+    print()
+
+@app.errorhandler(400)
+def page_not_found(e):
+    return render_template('error_400.html'),400
  
 def main():
-    print("Starting webserver")
+    print("Preparing connection to database...")
+    prepare_Database()
+    print("Starting webserver...")
     app.secret_key = os.urandom(12)
     app.run()
 

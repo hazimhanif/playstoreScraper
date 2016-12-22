@@ -1,4 +1,6 @@
-<link href="/static/style2.css" rel="stylesheet" type="text/css" />
+
+<link rel="stylesheet" href="/static/style2.css" type="text/css">
+
 
 {% block body %}
 
@@ -28,15 +30,17 @@
 </div>
 </form>
 <p style="text-align: center;">============================================</p>
+<p style="text-align: center;"><span style="font-size: 18px;"><strong>Information</strong></span></p>
 	<p style="text-align: center;"><strong>+</strong> If the review is uncategorizable or not clear, just press the button below to drop it and proceed with the next review! <strong>+</strong></p>
 	<p style="text-align: center;"><strong>+</strong> If the review is totally in English, Indonesian or other than Malay language, drop it! <strong>+</strong></p>
 	<form action="/drop" name="Item_0">
-		<p style="text-align: center;"><button type="Drop">Drop!</button></p>
+		<p style="text-align: center;"><button type="Drop"><strong>Drop!</strong></button></p>
 	</form>
 <p style="text-align: center;">============================================</p>
 
 <form action="/result" method="POST" name="Item_1">
 <div class="selection">
+	<p style="text-align: center;">Label the attributes accordingly.</br>Press the "Submit" button to save and proceed with the next reviews.</p>
     <fieldset>
         <legend><strong>The sentiment of the review</strong></legend>
         <div>
@@ -62,9 +66,9 @@
     <fieldset>
         <legend><strong>The real/actual rating of the review</strong></legend>
         <div>
-        	<label class="radio-label">5</label>
+        	<label class="radio-label" >5</label>
             <input class="radio-input" type="radio" name="rating" value=5
-            <label class="radio-label">4</label>            
+            <label class="radio-label font-weight: bold;">4</label>            
             <input class="radio-input" type="radio" name="rating" value=4
             <label class="radio-label">3</label>
             <input class="radio-input" type="radio" name="rating" value=3
@@ -77,7 +81,8 @@
         </div>
     </fieldset>
 
-<p style="text-align: center;"><button type="Submit">Submit!</button></p>
+</br>
+<p style="text-align: center;"><button type="Submit"><strong>Submit!</strong></button></p>
 </div>
 </form>
 
