@@ -12,25 +12,11 @@ import flask
 import pymysql
 import dbase_stuff as dbs
 
+global nameIncoming
+global revId
 
-
-global conn
-conn=None
- 
 app = Flask(__name__)
-
-test = {
-        "appId":"aero.sita.lab.resmobileweb.android.mh",
-        "appPrice":0.0,
-        "appScore":4.0,
-        "appTitle":"Malaysia Airlines",
-        "revAuthor":"Siti Sumaini Siti Sumaini",
-        "revDate":"7 Ogos 2016",
-        "revRating":5.0,
-        "revText":"yang terbaik",
-        "revTitle":"Malaysia airlines"
-    }
-
+nameIncoming=""
 
 
 @app.route('/')
@@ -38,34 +24,60 @@ def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return main_screen()
+        return main_screen(nameIncoming)
  
 @app.route('/login', methods=['POST'])
 def do_admin_login():
-    if request.form['password'] == 'password' and request.form['username'] == 'admin':
+    global nameIncoming
+    user=dbs.login(request.form['username'])
+    if request.form['password'] == user[1] and request.form['username'] == user[0]:
         session['logged_in'] = True
+        nameIncoming=request.form['username']
     else:
         flash('Wrong password!')
     return home()
 
 @app.route('/result', methods=['POST'])
 def result():
+    global revId
+    
     addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'])
-    return render_template('main.html',test=test)
+    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
+    review=dbs.getReview()
+    revId=review[0]
+    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/drop')
 def drop():
+    global revId
+    
     print("Drop")
-    return render_template('main.html',test=test)
+    dbs.setDrop(nameIncoming,revId)
+    dbs.addDropsCount(nameIncoming)
+    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
+    review=dbs.getReview()
+    revId=review[0]
+    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/main', methods=['POST'])
-def main_screen():
-    return render_template('main.html',test=test)
+def main_screen(nameIncoming):
+    global revId
+    
+    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
+    review=dbs.getReview()
+    revId=review[0]
+    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 def addLabel(sentiment,authenticity,rating):
-    print(sentiment)
-    print(authenticity)
-    print(rating)
+    global revId
+    
+    print("Add Label")
+    dbs.setLabel(sentiment,authenticity,rating,nameIncoming,revId)
+    dbs.addReviewsCount(nameIncoming)
+    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
+    review=dbs.getReview()
+    revId=review[0]
+    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.errorhandler(400)
 def page_not_found(e):
