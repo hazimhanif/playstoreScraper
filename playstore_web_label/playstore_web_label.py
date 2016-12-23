@@ -5,9 +5,13 @@ Created on 16 Dec 2016
 
 @author: Hazim Hanif
 '''
-import flask
-from flask import Flask, flash, redirect, render_template, request, session, abort
 import os
+
+from flask import Flask, flash, redirect, render_template, request, session, abort
+import flask
+import pymysql
+import dbase_stuff as dbs
+
 
 
 global conn
@@ -63,16 +67,13 @@ def addLabel(sentiment,authenticity,rating):
     print(authenticity)
     print(rating)
 
-def prepare_Database():
-    print()
-
 @app.errorhandler(400)
 def page_not_found(e):
     return render_template('error_400.html'),400
  
 def main():
     print("Preparing connection to database...")
-    prepare_Database()
+    dbs.prepare_Database()
     print("Starting webserver...")
     app.secret_key = os.urandom(12)
     app.run()
