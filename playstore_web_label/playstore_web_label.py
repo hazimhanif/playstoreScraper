@@ -45,6 +45,7 @@ def result():
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
     review=dbs.getReview()
     revId=review[0]
+    dbs.revLock(revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/drop')
@@ -57,6 +58,7 @@ def drop():
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
     review=dbs.getReview()
     revId=review[0]
+    dbs.revLock(revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/main', methods=['POST'])
@@ -66,6 +68,7 @@ def main_screen(nameIncoming):
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
     review=dbs.getReview()
     revId=review[0]
+    dbs.revLock(revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 def addLabel(sentiment,authenticity,rating):
@@ -77,11 +80,17 @@ def addLabel(sentiment,authenticity,rating):
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
     review=dbs.getReview()
     revId=review[0]
+    dbs.revLock(revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.errorhandler(400)
 def page_not_found(e):
     return render_template('error_400.html'),400
+
+@app.route("/logout")
+def logout():
+    session['logged_in'] = False
+    return home()
  
 def main():
     print("Preparing connection to database...")

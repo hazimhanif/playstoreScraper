@@ -19,28 +19,26 @@ def prepare_Database():
 
 def login(nameIncoming):
     db.commit()
-    sql = "SELECT * FROM user"
+    sql = "SELECT * FROM user where username='%s'" % (nameIncoming)
     try:
         # Execute the SQL command
         cursor.execute(sql)
         # Fetch all the rows in a list of lists.
-        results = cursor.fetchall()
-        for row in results:
-            uname = row[1]
-            pwd = row[2]
-            t_review = row[3]
-            t_drop = row[4]
-            
-            if(uname==nameIncoming):
-                return([uname,pwd,t_review,t_drop])
+        result = cursor.fetchone()
+        if(result is None):
+            return([None,None,None,None])
+        else:
+            uname = result[1]
+            pwd = result[2]
+            t_review = result[3]
+            t_drop = result[4]
+            return([uname,pwd,t_review,t_drop])
     except:
         print ("Error: unable to fecth data")
         
-    return "NONE"
 
 def getTotalReviewsDrop(nameIncoming):
     sql = "SELECT total_review,total_drop FROM user WHERE username='%s'" % (nameIncoming)
-    db.commit()
     try:
         cursor.execute(sql)
         result = cursor.fetchone()
@@ -67,8 +65,7 @@ def addDropsCount(nameIncoming):
         
         
 def getReview():
-    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE labeller_name IS NULL LIMIT 1"
-    db.commit()
+    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE revlock=0 AND labeller_name IS NULL LIMIT 1"
     try:
         cursor.execute(sql)
         result = cursor.fetchone()
@@ -86,6 +83,14 @@ def setLabel(sentiment,authenticity,rating,nameIncoming,revId):
 
 def setDrop(nameIncoming,revId):
     sql="UPDATE playstore1 SET label_drop='Drop',labeller_name='%s' WHERE id=%d" % (nameIncoming,revId)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except:
+        print ("Error: unable to fecth data")
+        
+def revLock(revId):
+    sql = "UPDATE playstore1 SET revLock=1 WHERE id='%d'" % (revId)
     try:
         cursor.execute(sql)
         db.commit()
