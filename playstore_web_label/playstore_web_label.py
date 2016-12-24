@@ -17,7 +17,7 @@ global revId
 
 app = Flask(__name__)
 nameIncoming=""
-
+revId=0
 
 @app.route('/')
 def home():
@@ -52,7 +52,6 @@ def result():
 def drop():
     global revId
     
-    print("Drop")
     dbs.setDrop(nameIncoming,revId)
     dbs.addDropsCount(nameIncoming)
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
@@ -89,6 +88,7 @@ def page_not_found(e):
 
 @app.route("/logout")
 def logout():
+    dbs.revUnlock(revId)
     session['logged_in'] = False
     return home()
  

@@ -96,4 +96,11 @@ def revLock(revId):
         db.commit()
     except:
         print ("Error: unable to fecth data")
-    
+
+def revUnlock(revId):
+    sql = "UPDATE playstore1 SET revLock=0 WHERE id='%d'" % (revId)
+    try:
+        cursor.execute(sql)
+        db.commit()
+    except:
+        print ("Error: unable to fecth data")
