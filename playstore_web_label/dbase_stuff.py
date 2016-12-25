@@ -14,7 +14,7 @@ db=None
 def prepare_Database():
     global db
     global cursor
-    db = pymysql.connect("localhost","root","toor0987654321","test" )
+    db = pymysql.connect("localhost","username","password","test" )
     cursor=db.cursor()
 
 def login(nameIncoming):
@@ -64,7 +64,18 @@ def addDropsCount(nameIncoming):
         print ("Error: unable to fecth data")
         
         
-def getReview():
+def getReview(nameIncoming):
+    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE revlock=1 AND name_revLock='%s' AND labeller_name IS NULL LIMIT 1" % (nameIncoming)
+    try:
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        if(result is None):
+            None
+        else:
+            return result
+    except:
+        print ("Error: unable to fecth data")
+        
     sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE revlock=0 AND labeller_name IS NULL LIMIT 1"
     try:
         cursor.execute(sql)
@@ -89,8 +100,8 @@ def setDrop(nameIncoming,revId):
     except:
         print ("Error: unable to fecth data")
         
-def revLock(revId):
-    sql = "UPDATE playstore1 SET revLock=1 WHERE id='%d'" % (revId)
+def revLock(nameIncoming,revId):
+    sql = "UPDATE playstore1 SET revLock=1,name_revLock='%s' WHERE id=%d" % (nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
@@ -98,7 +109,7 @@ def revLock(revId):
         print ("Error: unable to fecth data")
 
 def revUnlock(revId):
-    sql = "UPDATE playstore1 SET revLock=0 WHERE id='%d'" % (revId)
+    sql = "UPDATE playstore1 SET revLock=0,name_revLock=NULL WHERE id=%d" % (revId)
     try:
         cursor.execute(sql)
         db.commit()

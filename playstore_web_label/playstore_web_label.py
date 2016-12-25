@@ -42,10 +42,11 @@ def result():
     global revId
     
     addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'])
+    dbs.addReviewsCount(nameIncoming)
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview()
+    review=dbs.getReview(nameIncoming)
     revId=review[0]
-    dbs.revLock(revId)
+    dbs.revUnlock(revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/drop')
@@ -55,9 +56,9 @@ def drop():
     dbs.setDrop(nameIncoming,revId)
     dbs.addDropsCount(nameIncoming)
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview()
+    review=dbs.getReview(nameIncoming)
     revId=review[0]
-    dbs.revLock(revId)
+    dbs.revLock(nameIncoming,revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.route('/main', methods=['POST'])
@@ -65,22 +66,13 @@ def main_screen(nameIncoming):
     global revId
     
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview()
+    review=dbs.getReview(nameIncoming)
     revId=review[0]
-    dbs.revLock(revId)
+    dbs.revLock(nameIncoming,revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 def addLabel(sentiment,authenticity,rating):
-    global revId
-    
-    print("Add Label")
     dbs.setLabel(sentiment,authenticity,rating,nameIncoming,revId)
-    dbs.addReviewsCount(nameIncoming)
-    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview()
-    revId=review[0]
-    dbs.revLock(revId)
-    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
 @app.errorhandler(400)
 def page_not_found(e):
