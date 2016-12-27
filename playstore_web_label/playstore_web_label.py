@@ -7,7 +7,7 @@ Created on 16 Dec 2016
 '''
 import os
 
-from flask import Flask, flash, redirect, render_template, request, session, abort
+from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 import flask
 import pymysql
 import dbase_stuff as dbs
@@ -43,11 +43,8 @@ def result():
     
     addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'])
     dbs.addReviewsCount(nameIncoming)
-    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview(nameIncoming)
-    revId=review[0]
     dbs.revUnlock(revId)
-    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
+    return redirect(url_for('home'))
 
 @app.route('/drop')
 def drop():
@@ -55,11 +52,8 @@ def drop():
     
     dbs.setDrop(nameIncoming,revId)
     dbs.addDropsCount(nameIncoming)
-    revdrop=dbs.getTotalReviewsDrop(nameIncoming)
-    review=dbs.getReview(nameIncoming)
-    revId=review[0]
-    dbs.revLock(nameIncoming,revId)
-    return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
+    dbs.revUnlock(revId)
+    return redirect(url_for('home'))
 
 @app.route('/main', methods=['POST'])
 def main_screen(nameIncoming):
