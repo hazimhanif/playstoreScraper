@@ -4,4 +4,6 @@ encoding//playstore_reviews_filter/playstore_reviews_filter.py=utf-8
 encoding//playstore_scraper/__init__.py=utf-8
 encoding//playstore_scraper/playstore_scraper.py=utf-8
 encoding//playstore_web_label/__init__.py=utf-8
+encoding//playstore_web_label/dbase_stuff.py=utf-8
 encoding//playstore_web_label/playstore_web_label.py=utf-8
+encoding//playstore_web_label/templates/main.html=UTF-8

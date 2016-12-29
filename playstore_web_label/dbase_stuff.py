@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 '''
 Created on 22 Dec 2016
 
@@ -30,21 +32,23 @@ def login(nameIncoming):
         else:
             uname = result[1]
             pwd = result[2]
-            t_review = result[3]
-            t_drop = result[4]
-            return([uname,pwd,t_review,t_drop])
+            return([uname,pwd])
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: login")
         
 
 def getTotalReviewsDrop(nameIncoming):
-    sql = "SELECT total_review,total_drop FROM user WHERE username='%s'" % (nameIncoming)
+    result=[]
+    sql1 = "SELECT COUNT(*) FROM playstore WHERE labeller_name='%s' AND label_drop IS NULL" % (nameIncoming)
+    sql2 = "SELECT COUNT(*) FROM playstore WHERE labeller_name='%s' AND label_drop IS NOT NULL" % (nameIncoming)
     try:
-        cursor.execute(sql)
-        result = cursor.fetchone()
+        cursor.execute(sql1)
+        result.append(str(cursor.fetchone()).strip(',\(\)'))
+        cursor.execute(sql2)
+        result.append(str(cursor.fetchone()).strip(',\(\)'))
         return result
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: getTotalReviewsDrop")
         
 
 def addReviewsCount(nameIncoming):
@@ -53,19 +57,11 @@ def addReviewsCount(nameIncoming):
         cursor.execute(sql)
         db.commit()
     except:
-        print ("Error: unable to fecth data")
-
-def addDropsCount(nameIncoming):
-    sql = "UPDATE user SET total_drop=total_drop+1 WHERE username='%s'" % (nameIncoming)
-    try:
-        cursor.execute(sql)
-        db.commit()
-    except:
-        print ("Error: unable to fecth data")
+        print ("Error: addReviewsCount")
         
         
 def getReview(nameIncoming):
-    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE revlock=1 AND name_revLock='%s' AND labeller_name IS NULL LIMIT 1" % (nameIncoming)
+    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore WHERE revlock=1 AND name_revLock='%s' AND labeller_name IS NULL LIMIT 1" % (nameIncoming)
     try:
         cursor.execute(sql)
         result = cursor.fetchone()
@@ -74,44 +70,44 @@ def getReview(nameIncoming):
         else:
             return result
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: getReview")
         
-    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore1 WHERE revlock=0 AND labeller_name IS NULL LIMIT 1"
+    sql="SELECT id,appId,appPrice,appScore,appTitle,revAuthor,revDate,revRating,revText,revTitle FROM playstore WHERE revlock=0 AND labeller_name IS NULL LIMIT 1"
     try:
         cursor.execute(sql)
         result = cursor.fetchone()
         return result
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: getReview")
         
 def setLabel(sentiment,authenticity,rating,nameIncoming,revId):
-    sql="UPDATE playstore1 SET label_sentiment='%s',label_authenticity='%s',label_rating=%f,labeller_name='%s' WHERE id=%d" % (sentiment,authenticity,float(rating),nameIncoming,revId)
+    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=%f,labeller_name='%s' WHERE id=%d" % (sentiment,authenticity,float(rating),nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: setLabel")
 
 def setDrop(nameIncoming,revId):
-    sql="UPDATE playstore1 SET label_drop='Drop',labeller_name='%s' WHERE id=%d" % (nameIncoming,revId)
+    sql="UPDATE playstore SET label_drop='Drop',labeller_name='%s' WHERE id=%d" % (nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: setDrop")
         
 def revLock(nameIncoming,revId):
-    sql = "UPDATE playstore1 SET revLock=1,name_revLock='%s' WHERE id=%d" % (nameIncoming,revId)
+    sql = "UPDATE playstore SET revLock=1,name_revLock='%s' WHERE id=%d" % (nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: revLock")
 
 def revUnlock(revId):
-    sql = "UPDATE playstore1 SET revLock=0,name_revLock=NULL WHERE id=%d" % (revId)
+    sql = "UPDATE playstore SET revLock=0,name_revLock=NULL WHERE id=%d" % (revId)
     try:
         cursor.execute(sql)
         db.commit()
     except:
-        print ("Error: unable to fecth data")
+        print ("Error: revUnlock")

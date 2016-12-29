@@ -13,31 +13,33 @@ import pymysql
 import dbase_stuff as dbs
 
 global revId
+global nameIncoming
 
 app = Flask(__name__)
 revId=0
+nameIncoming=""
+
 
 @app.route('/')
-def home(nameIncoming):
+def home():
     if not session.get('logged_in'):
         return render_template('login.html')
     else:
-        return main_screen(nameIncoming)
+        return main_screen()
  
 @app.route('/login', methods=['POST'])
 def do_admin_login():
+    global nameIncoming
     user=dbs.login(request.form['username'])
     if request.form['password'] == user[1] and request.form['username'] == user[0]:
         session['logged_in'] = True
         nameIncoming=request.form['username']
     else:
         flash('Wrong password!')
-    return home(nameIncoming)
+    return home()
 
 @app.route('/result', methods=['POST'])
 def result():
-    global revId
-    
     addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'],nameIncoming)
     dbs.addReviewsCount(nameIncoming)
     dbs.revUnlock(revId)
@@ -45,17 +47,13 @@ def result():
 
 @app.route('/drop')
 def drop():
-    global revId
-    
     dbs.setDrop(nameIncoming,revId)
-    dbs.addDropsCount(nameIncoming)
     dbs.revUnlock(revId)
     return redirect(url_for('main_screen'))
 
 @app.route('/main')
-def main_screen(nameIncoming):
+def main_screen():
     global revId
-    
     revdrop=dbs.getTotalReviewsDrop(nameIncoming)
     review=dbs.getReview(nameIncoming)
     revId=review[0]

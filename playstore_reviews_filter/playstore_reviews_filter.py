@@ -32,7 +32,7 @@ filteredDir="D:/scraper/playstore/filtered_reviews/"
 def saveFinalList():
     try:
         with codecs.open("D:/scraper/playstore/final_list_clean.json", 'wb','utf-8') as outfile:
-            json.dump(finalList, outfile, indent=4, sort_keys=True, separators=(',', ':'))
+            json.dump(finalList, outfile, indent=4, sort_keys=True, separators=(',', ':'),ensure_ascii=False).encode('utf8')
     except Exception as e:
         print(e)
 
@@ -47,7 +47,7 @@ def saveFilteredReviews(data,file):
     filename = filteredDir+file
     try:
         with codecs.open(filename, 'wb','utf-8') as outfile:
-            json.dump(data, outfile, indent=4, sort_keys=True, separators=(',', ':'))
+            json.dump(data, outfile, indent=4, sort_keys=True, separators=(',', ':'),ensure_ascii=False).encode('utf8')
     except Exception as e:
         print(e)
 
