@@ -30,6 +30,8 @@ def home():
 @app.route('/login', methods=['POST'])
 def do_admin_login():
     global nameIncoming
+    print("Preparing connection to database...")
+    dbs.prepare_Database()
     user=dbs.login(request.form['username'])
     if request.form['password'] == user[1] and request.form['username'] == user[0]:
         session['logged_in'] = True
@@ -70,12 +72,11 @@ def page_not_found(e):
 @app.route("/logout")
 def logout():
     dbs.revUnlock(revId)
+    dbs.logout()
     session['logged_in'] = False
     return home()
  
 def main():
-    print("Preparing connection to database...")
-    dbs.prepare_Database()
     print("Starting webserver...")
     app.secret_key = os.urandom(12)
     app.run(host="0.0.0.0")

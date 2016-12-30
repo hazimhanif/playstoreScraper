@@ -18,6 +18,10 @@ def prepare_Database():
     global cursor
     db = pymysql.connect("localhost","root","toor0987654321","test" )
     cursor=db.cursor()
+    
+def logout():
+    global db
+    db.close()
 
 def login(nameIncoming):
     db.commit()
