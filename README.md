@@ -6,6 +6,7 @@ This script is developed for a research project. It is used for sentiment analys
 * Playstore Scraper
 * Playstore Reviews Filter
 * Playstore Reviews Labeller
+* Features Extractor (R)
 
 ### Requirements
 * Python 3
