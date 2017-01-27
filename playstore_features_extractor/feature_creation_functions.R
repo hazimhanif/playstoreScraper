@@ -75,5 +75,18 @@ func_brand_names_in_text<-function(obs){
   }
 }
 
+func_bad_rev_before<-function(obs){
+  temp<-dataset[dataset$appId==obs$appId,]
+  temp<-temp[order(temp$revDate,decreasing = FALSE),]
+  x<-which(temp[temp$appId==obs$appId,]$id==obs$id)
+  if(temp[x-1,"label_sentiment"]=="negative"){1}else{0}
+}
+
+func_bad_rev_after<-function(obs){
+  temp<-dataset[dataset$appId==obs$appId,]
+  temp<-temp[order(temp$revDate,decreasing = FALSE),]
+  x<-which(temp[temp$appId==obs$appId,]$id==obs$id)
+  if(temp[x+1,"label_sentiment"]=="negative"){1}else{0}
+}
 
 

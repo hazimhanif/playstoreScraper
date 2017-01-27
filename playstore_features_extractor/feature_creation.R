@@ -1,5 +1,6 @@
 ## Importing library
 library(stringdist)
+library(stringr)
 
 
 ## Source the functions file
@@ -44,27 +45,38 @@ month_list<-list()
 dataset$revDate<-as.character.factor(dataset$revDate)
 for(x in seq(1,nrow(dataset))){
   tempsplit<-strsplit(x=dataset[x,"revDate"],split =" ")
-  dataset[x,"revDate"]<-paste(tempsplit[[1]][1],month_list[[tempsplit[[1]][2]]],tempsplit[[1]][3],sep = "-")
+  dataset[x,"reasvDate"]<-paste(tempsplit[[1]][1],month_list[[tempsplit[[1]][2]]],tempsplit[[1]][3],sep = "-")
 }
 dataset$revDate<-as.Date(dataset$revDate,"%d-%m-%Y")
 
 
-##Features Extraction: Total 16
+##Features Extraction: Total 24
 print("Extracting features.")
-app_price<-obs$appPrice
-app_score<-obs$appScore
+##Continuos values features
+app_price<-as.double(obs$appPrice)
+app_score<-as.double(obs$appScore)
 rev_title_len<-len(obs$revTitle)
 rev_body_len<-len(obs$revText)
 rev_pos_ascend<-func_rev_pos_ascend(obs)
 rev_pos_descend<-func_rev_pos_descend(obs)
-first_rev<-func_first_rev(obs)
-only_rev<-func_only_rev(obs)
 avg_cosine_similarity_title<-func_avg_cosine_similarity_title(obs)
 avg_cosine_similarity_text<-func_avg_cosine_similarity_text(obs)
 avg_levenshtein_dist_title<-func_avg_levenshtein_dist_title(obs)
 avg_levenshtein_dist_text<-func_avg_levenshtein_dist_text(obs)
+numeric_title_ratio<-length(as.numeric(unlist(strsplit(gsub("[^0-9]", "", unlist(obs$revTitle)), ""))))/length(obs$revTitle)
+numeric_text_ratio<-length(as.numeric(unlist(strsplit(gsub("[^0-9]", "", unlist(obs$revText)), ""))))/length(obs$revText)
+avg_num_ratio<-mean(c(num_title_ratio,num_text_ratio))
+cap_words_ratio<-length(unlist(str_extract_all(obs$revText, '\\b[A-Z]+\\b')))/length(unlist(str_split(obs$revText,pattern = " ")))
+num_cap_letters_ratio<-length(unlist(str_extract_all(obs$revText, '[A-Z]')))/length(unlist(str_extract_all(obs$revText, '[A-Za-z]')))
+rev_rating<-as.double(obs$label_rating)
+stdev_revApp_rating<-sd(c(as.double(obs$label_rating),as.double(obs$appScore)))
+##Categorical features
+first_rev<-func_first_rev(obs)
+only_rev<-func_only_rev(obs)
 brand_names_in_title<-func_brand_names_in_title(obs)
 brand_names_in_text<-func_brand_names_in_text(obs)
-num_title_ratio<-length(as.numeric(unlist(strsplit(gsub("[^0-9]", "", unlist(obs$revTitle)), ""))))/length(obs$revTitle)
-num_text_ratio<-length(as.numeric(unlist(strsplit(gsub("[^0-9]", "", unlist(obs$revText)), ""))))/length(obs$revText)
-
+rev_semantic_orient<-if(obs$label_sentiment=="positive"){2}else if(obs$label_sentiment=="neutral"){1}else{0}
+bad_rev_before<-func_bad_rev_before(obs)
+bad_rev_after<-func_bad_rev_after(obs)
+##Label
+class<-if(obs$label_authenticity=="fake"){1}else{0}
