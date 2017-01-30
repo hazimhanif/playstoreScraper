@@ -20,10 +20,10 @@ dataset<-dataset[,1:13]
 ##Remove all punctuations
 #print("Removing all punctuations..")
 #for(x in seq(1,nrow(dataset))){
-dataset[x,"revTitle"]<- gsub(dataset[x,"revTitle"],pattern = "[[:punct:]]",replacement = "")
-dataset[x,"revText"]<- gsub(dataset[x,"revText"],pattern = "[[:punct:]]",replacement = "")
-}
-#
+#dataset[x,"revTitle"]<- gsub(dataset[x,"revTitle"],pattern = "[[:punct:]]",replacement = "")
+#dataset[x,"revText"]<- gsub(dataset[x,"revText"],pattern = "[[:punct:]]",replacement = "")
+#}
+
 
 ##Converting date to real date type
 print("Converting date data to real date type.")
@@ -50,7 +50,7 @@ for(x in seq(1,nrow(dataset))){
 dataset$revDate<-as.Date(dataset$revDate,"%d-%m-%Y")
 
 
-##Features Extraction: Total 24
+##Features Extraction: Total 30
 print("Extracting features.")
 ##Continuos values features
 app_price<-as.double(obs$appPrice)
@@ -70,6 +70,12 @@ cap_words_ratio<-length(unlist(str_extract_all(obs$revText, '\\b[A-Z]+\\b')))/le
 num_cap_letters_ratio<-length(unlist(str_extract_all(obs$revText, '[A-Z]')))/length(unlist(str_extract_all(obs$revText, '[A-Za-z]')))
 rev_rating<-as.double(obs$label_rating)
 stdev_revApp_rating<-sd(c(as.double(obs$label_rating),as.double(obs$appScore)))
+avg_words_freq_title<-func_avg_words_freq_title(obs)
+avg_words_freq_text<-func_avg_words_freq_title(obs)
+num_unique_words_title<-func_num_unique_words_title(obs)
+num_unique_words_text<-func_num_unique_words_text(obs)
+unique_words_to_words_title_ratio<-func_unique_words_to_words_title_ratio(obs)
+unique_words_to_words_text_ratio<-func_unique_words_to_words_text_ratio(obs)
 ##Categorical features
 first_rev<-func_first_rev(obs)
 only_rev<-func_only_rev(obs)

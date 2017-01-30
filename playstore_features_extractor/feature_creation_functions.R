@@ -89,4 +89,46 @@ func_bad_rev_after<-function(obs){
   if(temp[x+1,"label_sentiment"]=="negative"){1}else{0}
 }
 
+func_avg_words_freq_title<-function(obs){
+  temp<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp<-table(temp)
+  mean(temp)
+}
+
+func_avg_words_freq_text<-function(obs){
+  temp<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp<-table(temp)
+  mean(temp)
+}
+
+func_num_unique_words_title<-function(obs){
+  temp<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp<-table(temp)
+  length(temp)
+}
+
+func_num_unique_words_text<-function(obs){
+  temp<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp<-table(temp)
+  length(temp)
+}
+
+func_unique_words_to_words_title_ratio<-function(obs){
+  temp1<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp1," ")
+  temp<-table(temp)
+  length(temp)/str_count(temp1)
+}
+
+func_unique_words_to_words_text_ratio<-function(obs){
+  temp1<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp1," ")
+  temp<-table(temp)
+  length(temp)/str_count(temp1)
+}
+
 
