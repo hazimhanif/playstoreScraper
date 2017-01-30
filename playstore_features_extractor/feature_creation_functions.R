@@ -118,17 +118,23 @@ func_num_unique_words_text<-function(obs){
 }
 
 func_unique_words_to_words_title_ratio<-function(obs){
-  temp1<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
-  temp<-strsplit(temp1," ")
-  temp<-table(temp)
-  length(temp)/str_count(temp1)
+  temp<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp1<-table(temp)
+  length(temp1)/length(unlist(temp))
 }
 
 func_unique_words_to_words_text_ratio<-function(obs){
-  temp1<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
-  temp<-strsplit(temp1," ")
-  temp<-table(temp)
-  length(temp)/str_count(temp1)
+  temp<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp1<-table(temp)
+  length(temp1)/length(unlist(temp))
 }
 
-
+func_stdev_num_words_title_text<-function(obs){
+  temp<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
+  temp<-strsplit(temp," ")
+  temp1<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
+  temp1<-strsplit(temp," ")
+  sd(c(length(unlist(temp)),length(unlist(temp1))))
+}

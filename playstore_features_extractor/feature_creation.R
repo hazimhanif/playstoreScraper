@@ -50,7 +50,7 @@ for(x in seq(1,nrow(dataset))){
 dataset$revDate<-as.Date(dataset$revDate,"%d-%m-%Y")
 
 
-##Features Extraction: Total 30
+##Features Extraction: Total 37
 print("Extracting features.")
 ##Continuos values features
 app_price<-as.double(obs$appPrice)
@@ -76,6 +76,14 @@ num_unique_words_title<-func_num_unique_words_title(obs)
 num_unique_words_text<-func_num_unique_words_text(obs)
 unique_words_to_words_title_ratio<-func_unique_words_to_words_title_ratio(obs)
 unique_words_to_words_text_ratio<-func_unique_words_to_words_text_ratio(obs)
+stdev_num_words_title_text<-func_stdev_num_words_title_text(obs)
+stdev_num_unique_words_title_text<-sd(c(num_unique_words_title,num_unique_words_text))
+stdev_length_title_text<-sd(c(rev_title_len,rev_body_len))
+levenshtein_title_text<-stringdist(obs$revTitle,obs$revText, method ="lv")
+cosine_sim_title_text<-stringdist(obs$revTitle,obs$revText, method ="cosine")
+stdev_avg_lev_dist_title_text<-sd(c(avg_levenshtein_dist_title,avg_levenshtein_dist_text))
+stdev_avg_cosine_sim_title_text<-sd(c(avg_cosine_similarity_title,avg_cosine_similarity_text))
+
 ##Categorical features
 first_rev<-func_first_rev(obs)
 only_rev<-func_only_rev(obs)
