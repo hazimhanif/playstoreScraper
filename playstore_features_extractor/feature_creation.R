@@ -55,14 +55,15 @@ for(x in seq(1,nrow(dataset))){
 }
 dataset$revDate<-as.Date(dataset$revDate,"%d-%m-%Y")
 
-##Flag for creating dataframe
-first_flag<-TRUE
+##List init
+mylist<-list()
 
+print("Features extraction...")
 
 for(x in seq(1,nrow(dataset))){
   obs<-dataset[x,]
   ##Features Extraction: Total 37
-  sprintf("Extracting features for row %d \n",x)
+  print(x)
   ##Continuos values features
   app_price<-as.double(obs$appPrice)
   app_score<-as.double(obs$appScore)
@@ -106,18 +107,10 @@ for(x in seq(1,nrow(dataset))){
   ##Label
   class<-if(obs$label_authenticity=="fake"){1}else{0}
   
- 
-  if(first_flag==TRUE){
-    df_dataset <-data.frame(app_price,app_score,rev_title_len,rev_body_len,rev_pos_ascend,rev_pos_descend,avg_cosine_similarity_title,avg_cosine_similarity_text,avg_levenshtein_dist_title,avg_levenshtein_dist_text,numeric_title_ratio,numeric_text_ratio,avg_num_ratio,cap_words_ratio,num_cap_letters_ratio,rev_rating,stdev_revApp_rating,avg_words_freq_title,avg_words_freq_text,num_unique_words_title,num_unique_words_text,unique_words_to_words_title_ratio,unique_words_to_words_text_ratio,stdev_num_words_title_text,stdev_num_unique_words_title_text,stdev_length_title_text,levenshtein_title_text,cosine_sim_title_text,stdev_avg_lev_dist_title_text,stdev_avg_cosine_sim_title_text,first_rev,only_rev,brand_names_in_title,brand_names_in_text,rev_semantic_orient,bad_rev_before,bad_rev_after,class)
-    first_flag<-FALSE
-    names(df_dataset)<-c("app_price","app_score","rev_title_len","rev_body_len","rev_pos_ascend","rev_pos_descend","avg_cosine_similarity_title","avg_cosine_similarity_text","avg_levenshtein_dist_title","avg_levenshtein_dist_text","numeric_title_ratio","numeric_text_ratio","avg_num_ratio","cap_words_ratio","num_cap_letters_ratio","rev_rating","stdev_revApp_rating","avg_words_freq_title","avg_words_freq_text","num_unique_words_title","num_unique_words_text","unique_words_to_words_title_ratio","unique_words_to_words_text_ratio","stdev_num_words_title_text","stdev_num_unique_words_title_text","stdev_length_title_text","levenshtein_title_text","cosine_sim_title_text","stdev_avg_lev_dist_title_text","stdev_avg_cosine_sim_title_text","first_rev","only_rev","brand_names_in_title","brand_names_in_text","rev_semantic_orient","bad_rev_before","bad_rev_after","class")
-  }
-  
-  rbind(df_dataset,data.frame(app_price,app_score,rev_title_len,rev_body_len,rev_pos_ascend,rev_pos_descend,avg_cosine_similarity_title,avg_cosine_similarity_text,avg_levenshtein_dist_title,avg_levenshtein_dist_text,numeric_title_ratio,numeric_text_ratio,avg_num_ratio,cap_words_ratio,num_cap_letters_ratio,rev_rating,stdev_revApp_rating,avg_words_freq_title,avg_words_freq_text,num_unique_words_title,num_unique_words_text,unique_words_to_words_title_ratio,unique_words_to_words_text_ratio,stdev_num_words_title_text,stdev_num_unique_words_title_text,stdev_length_title_text,levenshtein_title_text,cosine_sim_title_text,stdev_avg_lev_dist_title_text,stdev_avg_cosine_sim_title_text,first_rev,only_rev,brand_names_in_title,brand_names_in_text,rev_semantic_orient,bad_rev_before,bad_rev_after,class))
-
-  if(x==3){
-    break
-  }
+  mylist[[x]]<-c(app_price,app_score,rev_title_len,rev_body_len,rev_pos_ascend,rev_pos_descend,avg_cosine_similarity_title,avg_cosine_similarity_text,avg_levenshtein_dist_title,avg_levenshtein_dist_text,numeric_title_ratio,numeric_text_ratio,avg_num_ratio,cap_words_ratio,num_cap_letters_ratio,rev_rating,stdev_revApp_rating,avg_words_freq_title,avg_words_freq_text,num_unique_words_title,num_unique_words_text,unique_words_to_words_title_ratio,unique_words_to_words_text_ratio,stdev_num_words_title_text,stdev_num_unique_words_title_text,stdev_length_title_text,levenshtein_title_text,cosine_sim_title_text,stdev_avg_lev_dist_title_text,stdev_avg_cosine_sim_title_text,first_rev,only_rev,brand_names_in_title,brand_names_in_text,rev_semantic_orient,bad_rev_before,bad_rev_after,class)
 }
 
-#write.csv(x = df_dataset,)
+df_dataset<-data.frame(t(sapply(mylist,c)))
+names(df_dataset)<-c("app_price","app_score","rev_title_len","rev_body_len","rev_pos_ascend","rev_pos_descend","avg_cosine_similarity_title","avg_cosine_similarity_text","avg_levenshtein_dist_title","avg_levenshtein_dist_text","numeric_title_ratio","numeric_text_ratio","avg_num_ratio","cap_words_ratio","num_cap_letters_ratio","rev_rating","stdev_revApp_rating","avg_words_freq_title","avg_words_freq_text","num_unique_words_title","num_unique_words_text","unique_words_to_words_title_ratio","unique_words_to_words_text_ratio","stdev_num_words_title_text","stdev_num_unique_words_title_text","stdev_length_title_text","levenshtein_title_text","cosine_sim_title_text","stdev_avg_lev_dist_title_text","stdev_avg_cosine_sim_title_text","first_rev","only_rev","brand_names_in_title","brand_names_in_text","rev_semantic_orient","bad_rev_before","bad_rev_after","class")
+
+write.csv(x = df_dataset,file = "5000_ready.csv",row.names = FALSE,col.names = TRUE)
