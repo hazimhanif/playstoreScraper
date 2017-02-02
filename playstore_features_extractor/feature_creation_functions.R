@@ -60,7 +60,7 @@ func_avg_levenshtein_dist_text<-function(obs){
 }
 
 func_brand_names_in_title<-function(obs){
-  if(grep(tolower(obs$revTitle),pattern = tolower(obs$appTitle))==1){
+  if(length(grep(tolower(gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")),pattern = tolower(gsub(obs$appTitle,pattern = "[[:punct:]]",replacement = ""))))==1){
     1
   }else{
     0
@@ -68,7 +68,7 @@ func_brand_names_in_title<-function(obs){
 }
 
 func_brand_names_in_text<-function(obs){
-  if(grep(tolower(obs$revText),pattern = tolower(obs$appTitle))==1){
+  if(length(grep(tolower(gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")),pattern = tolower(gsub(obs$appTitle,pattern = "[[:punct:]]",replacement = ""))))==1){
     1
   }else{
     0
@@ -79,6 +79,7 @@ func_bad_rev_before<-function(obs){
   temp<-dataset[dataset$appId==obs$appId,]
   temp<-temp[order(temp$revDate,decreasing = FALSE),]
   x<-which(temp[temp$appId==obs$appId,]$id==obs$id)
+  if(x==1){return(0)}
   if(temp[x-1,"label_sentiment"]=="negative"){1}else{0}
 }
 
@@ -86,6 +87,7 @@ func_bad_rev_after<-function(obs){
   temp<-dataset[dataset$appId==obs$appId,]
   temp<-temp[order(temp$revDate,decreasing = FALSE),]
   x<-which(temp[temp$appId==obs$appId,]$id==obs$id)
+  if(x==nrow(temp)){return(0)}
   if(temp[x+1,"label_sentiment"]=="negative"){1}else{0}
 }
 
@@ -135,6 +137,6 @@ func_stdev_num_words_title_text<-function(obs){
   temp<-gsub(obs$revTitle,pattern = "[[:punct:]]",replacement = "")
   temp<-strsplit(temp," ")
   temp1<-gsub(obs$revText,pattern = "[[:punct:]]",replacement = "")
-  temp1<-strsplit(temp," ")
+  temp1<-strsplit(temp1," ")
   sd(c(length(unlist(temp)),length(unlist(temp1))))
 }
