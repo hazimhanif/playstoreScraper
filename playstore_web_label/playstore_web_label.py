@@ -79,7 +79,8 @@ def logout():
 def main():
     print("Starting webserver...")
     app.secret_key = os.urandom(12)
-    app.run(host="0.0.0.0")
+    context = ('/etc/letsencrypt/live/hazimio.com/fullchain.pem', '/etc/letsencrypt/live/hazimio.com/privkey.pem')
+    app.run(host='0.0.0.0', port=5000, ssl_context=context, threaded=True, debug=True)
 
 if __name__ == '__main__':
     main()
