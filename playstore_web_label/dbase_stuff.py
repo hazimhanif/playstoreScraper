@@ -16,7 +16,7 @@ db=None
 def prepare_Database():
     global db
     global cursor
-    db = pymysql.connect("localhost","root","toor0987654321","test" )
+    db = pymysql.connect(host="127.0.0.1",user="local",passwd="localpass",db="test",port=3306)
     cursor=db.cursor()
     
 def logout():
