@@ -42,7 +42,8 @@ def do_admin_login():
 
 @app.route('/result', methods=['POST'])
 def result():
-    addLabel(request.form['sentiment'],request.form['authenticity'],request.form['rating'],nameIncoming)
+#    addLabel_old(request.form['sentiment'],request.form['authenticity'],request.form['rating'],nameIncoming) ## This is old label
+    addLabel(request.form['authenticity'],nameIncoming)
     dbs.addReviewsCount(nameIncoming)
     dbs.revUnlock(revId)
     return redirect(url_for('main_screen'))
@@ -62,8 +63,11 @@ def main_screen():
     dbs.revLock(nameIncoming,revId)
     return render_template('main.html',revdrop=revdrop,review=review,nameIncoming=nameIncoming)
 
-def addLabel(sentiment,authenticity,rating,nameIncoming):
-    dbs.setLabel(sentiment,authenticity,rating,nameIncoming,revId)
+#def addLabel_old(sentiment,authenticity,rating,nameIncoming):
+#    dbs.setLabel_old(sentiment,authenticity,rating,nameIncoming,revId)
+
+def addLabel(authenticity,nameIncoming):
+    dbs.setLabel(authenticity,nameIncoming,revId)
 
 @app.errorhandler(400)
 def page_not_found(e):

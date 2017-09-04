@@ -84,8 +84,17 @@ def getReview(nameIncoming):
     except:
         print ("Error: getReview")
         
-def setLabel(sentiment,authenticity,rating,nameIncoming,revId):
-    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=%f,labeller_name='%s' WHERE id=%d" % (sentiment,authenticity,float(rating),nameIncoming,revId)
+
+#def setLabel_old(sentiment,authenticity,rating,nameIncoming,revId):
+#    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=%f,labeller_name='%s' WHERE id=%d" % (sentiment,authenticity,float(rating),nameIncoming,revId)
+#    try:
+#        cursor.execute(sql)
+#        db.commit()
+#    except:
+#        print ("Error: setLabel")
+
+def setLabel(authenticity,nameIncoming,revId):
+    sql="UPDATE playstore SET label_sentiment=NULL,label_authenticity='%s',label_rating=NULL,labeller_name='%s' WHERE id=%d" % (authenticity,nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
