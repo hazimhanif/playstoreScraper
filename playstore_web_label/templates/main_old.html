@@ -44,75 +44,51 @@
 		<p style="text-align: center;"><button type="Drop"><strong>Drop!</strong></button></p>
 	</form>
 <p style="text-align: center;">============================================</p>
-<div class="rules">
-<table style="text-align: center;">
-  <tr>
-    <th>Review Rating</th>
-    <th>Review Polarity</th> 
-    <th>Label</th>
-  </tr>
-  <tr>
-    <td>[0,1,2]</td>
-    <td>Negative</td> 
-    <td>Normal</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Negative</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>[4,5]</td>
-    <td>Negative</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>[0,1,2]</td>
-    <td>Neutral</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Neutral</td> 
-    <td>Normal</td>
-  </tr>
-  <tr>
-    <td>[4,5]</td>
-    <td>Neutral</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>[0,1,2]</td>
-    <td>Positive</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>Positive</td> 
-    <td>Spam</td>
-  </tr>
-  <tr>
-    <td>[4,5]</td>
-    <td>Positive</td> 
-    <td>Normal</td>
-  </tr>
-</table>
-<p style="text-align: center;"><strong>+</strong> If the review is a question, it is considered <strong>neutral</strong>.<strong>+</strong></p>
-</div>
+
 <form action="/result" method="POST" name="Item_1">
 <div class="selection">
 	<p style="text-align: center;">Label the attributes accordingly.</br>Press the "Submit" button to save and proceed with the next reviews.</p>
+    <fieldset>
+        <legend><strong>The sentiment of the review</strong></legend>
+        <div>
+        	<label class="radio-label">Positive</label>
+            <input class="radio-input" type="radio" name="sentiment" value="positive"
+            <label class="radio-label">Neutral</label>            
+            <input class="radio-input" type="radio" name="sentiment" value="neutral"
+            <label class="radio-label">Negative</label>
+            <input class="radio-input" type="radio" name="sentiment" value="negative"
+        </div>
+    </fieldset>
     </br>
     <fieldset>
         <legend><strong>The authenticity of the review</strong></legend>
         <div>
-        	<label class="radio-label">Normal</label>
+        	<label class="radio-label">Genuine</label>
             <input class="radio-input" type="radio" name="authenticity" value="genuine"
-            <label class="radio-label">Spam</label>            
+            <label class="radio-label">Fake</label>            
             <input class="radio-input" type="radio" name="authenticity" value="fake"
         </div>
     </fieldset>
         </br>
+    <fieldset>
+        <legend><strong>The real/actual rating of the review</strong></legend>
+        <div>
+        	<label class="radio-label" >5</label>
+            <input class="radio-input" type="radio" name="rating" value=5
+            <label class="radio-label font-weight: bold;">4</label>            
+            <input class="radio-input" type="radio" name="rating" value=4
+            <label class="radio-label">3</label>
+            <input class="radio-input" type="radio" name="rating" value=3
+            <label class="radio-label">2</label>
+            <input class="radio-input" type="radio" name="rating" value=2
+            <label class="radio-label">1</label>
+            <input class="radio-input" type="radio" name="rating" value=1
+            <label class="radio-label">0</label>
+            <input class="radio-input" type="radio" name="rating" value=0
+        </div>
+    </fieldset>
+
+</br>
 <p style="text-align: center;"><button type="Submit"><strong>Submit!</strong></button></p>
 </div>
 </form>
