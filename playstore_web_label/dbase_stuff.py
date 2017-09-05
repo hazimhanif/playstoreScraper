@@ -16,7 +16,7 @@ db=None
 def prepare_Database():
     global db
     global cursor
-    db = pymysql.connect(host="127.0.0.1",user="local",passwd="localpass",db="test",port=3306)
+    db = pymysql.connect(host="127.0.0.1",user="",passwd="",db="test",port=3306)
     cursor=db.cursor()
     
 def logout():
@@ -93,8 +93,8 @@ def getReview(nameIncoming):
 #    except:
 #        print ("Error: setLabel")
 
-def setLabel(authenticity,nameIncoming,revId):
-    sql="UPDATE playstore SET label_sentiment=NULL,label_authenticity='%s',label_rating=NULL,labeller_name='%s' WHERE id=%d" % (authenticity,nameIncoming,revId)
+def setLabel(sentiment,authenticity,nameIncoming,revId):
+    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=NULL,labeller_name='%s' WHERE id=%d" % (authenticity,nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
