@@ -94,7 +94,7 @@ def getReview(nameIncoming):
 #        print ("Error: setLabel")
 
 def setLabel(sentiment,authenticity,nameIncoming,revId):
-    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=NULL,labeller_name='%s' WHERE id=%d" % (authenticity,nameIncoming,revId)
+    sql="UPDATE playstore SET label_sentiment='%s',label_authenticity='%s',label_rating=NULL,labeller_name='%s' WHERE id=%d" % (sentiment,authenticity,nameIncoming,revId)
     try:
         cursor.execute(sql)
         db.commit()
